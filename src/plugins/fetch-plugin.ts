@@ -1,5 +1,3 @@
-import { EmitAndSemanticDiagnosticsBuilderProgram } from 'typescript';
-
 import * as esbuild from 'esbuild-wasm';
 import axios from 'axios';
 import localForage from 'localforage';
@@ -20,19 +18,33 @@ export const fetchPlugin = (inputCode: string) => {
           };
         }
 
-        const cachedResults = await fileCache.getItem<esbuild.OnLoadResult>(
-          args.path
-        );
+        // const cachedResults = await fileCache.getItem<esbuild.OnLoadResult>(
+        //   args.path
+        // );
 
-        if (cachedResults) {
-          return cachedResults;
-        }
+        // if (cachedResults) {
+        //   return cachedResults;
+        // }
 
         const { data, request } = await axios.get(args.path);
+        const fileType = args.path.match(/.css$/) ? 'css' : 'jsx';
+
+        const escaped = data
+          .replace(/\n/g, '')
+          .replace(/"/g, '\\"')
+          .replace(/'/g, "\\'");
+        const contents =
+          fileType === 'css'
+            ? `
+            const style = document.createElement('style');
+            style.innerText = '${escaped}';
+            document.head.appendChild(style);
+          `
+            : data;
 
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
-          contents: data,
+          contents: contents,
           resolveDir: new URL('./', request.responseURL).pathname
         };
 
