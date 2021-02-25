@@ -25,6 +25,8 @@ const App = () => {
       return;
     }
 
+    iframe.current.srcdoc = html;
+
     const result = await ref.current.build({
       entryPoints: ['index.js'],
       bundle: true,
@@ -36,7 +38,7 @@ const App = () => {
       }
     });
 
-    //setCode(result.outputFiles[0].text);
+    // setCode(result.outputFiles[0].text);
     iframe.current.contentWindow.postMessage(result.outputFiles[0].text, '*');
   };
 
@@ -47,8 +49,14 @@ const App = () => {
         <div id="root"></div>
         <script>
           window.addEventListener('message', (event) => {
-            eval(event.data)
-          },false)
+            try {
+              eval(event.data);
+            } catch (err) {
+              const root = document.querySelector('#root');
+              root.innerHTML = '<div style="color: red;"><h4>Runtime Error</h4>' + err + '</div>';
+              console.error(err);
+            }
+          }, false);
         </script>
       </body>
     </html>
@@ -64,7 +72,12 @@ const App = () => {
         <button onClick={onClick}>Submit</button>
       </div>
       <pre>{code}</pre>
-      <iframe ref={iframe} sandbox="allow-scripts" srcDoc={html} title="test" />
+      <iframe
+        ref={iframe}
+        title="iframe"
+        sandbox="allow-scripts"
+        srcDoc={html}
+      />
     </div>
   );
 };
