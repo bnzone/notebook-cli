@@ -12,7 +12,7 @@ interface CodeEditorProps {
   onChange(value: string): void;
 }
 
-const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
+const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
   const editorRef = useRef<any>();
 
   const onEditorDidMount: EditorDidMount = (getValue, monacoEditor) => {
@@ -20,6 +20,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
     monacoEditor.onDidChangeModelContent(() => {
       onChange(getValue());
     });
+
     monacoEditor.getModel()?.updateOptions({ tabSize: 2 });
 
     const highlighter = new Highlighter(
@@ -28,9 +29,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
       codeShift,
       monacoEditor
     );
-
     highlighter.highLightOnDidChangeModelContent(
-      // to disable showing of console syntax errors
       () => {},
       () => {},
       undefined,
@@ -41,6 +40,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
   const onFormatClick = () => {
     // get current value from editor
     const unformatted = editorRef.current.getModel().getValue();
+
     // format that value
     const formatted = prettier
       .format(unformatted, {
@@ -51,7 +51,8 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ initialValue, onChange }) => {
         singleQuote: true
       })
       .replace(/\n$/, '');
-    // set the formatter value back in the editor
+
+    // set the formatted value back in the editor
     editorRef.current.setValue(formatted);
   };
 
