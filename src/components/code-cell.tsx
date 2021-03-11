@@ -13,7 +13,6 @@ interface CodeCellProps {
 const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
   const [code, setCode] = useState('');
   const [err, setErr] = useState('');
-
   const { updateCell } = useActions();
 
   useEffect(() => {
@@ -22,6 +21,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
       setCode(output.code);
       setErr(output.err);
     }, 750);
+
     return () => {
       clearTimeout(timer);
     };
@@ -33,7 +33,7 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
         style={{
           height: 'calc(100% - 10px)',
           display: 'flex',
-          flexDirection: 'row'
+          flexDirection: 'row',
         }}
       >
         <Resizable direction="horizontal">
@@ -42,7 +42,6 @@ const CodeCell: React.FC<CodeCellProps> = ({ cell }) => {
             onChange={(value) => updateCell(cell.id, value)}
           />
         </Resizable>
-
         <Preview code={code} err={err} />
       </div>
     </Resizable>

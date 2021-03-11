@@ -3,12 +3,11 @@ import { unpkgPathPlugin } from './plugins/unpkg-path-plugin';
 import { fetchPlugin } from './plugins/fetch-plugin';
 
 let service: esbuild.Service;
-
 const bundle = async (rawCode: string) => {
   if (!service) {
     service = await esbuild.startService({
       worker: true,
-      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm'
+      wasmURL: 'https://unpkg.com/esbuild-wasm@0.8.27/esbuild.wasm',
     });
   }
 
@@ -20,18 +19,18 @@ const bundle = async (rawCode: string) => {
       plugins: [unpkgPathPlugin(), fetchPlugin(rawCode)],
       define: {
         'process.env.NODE_ENV': '"production"',
-        global: 'window'
-      }
+        global: 'window',
+      },
     });
 
     return {
       code: result.outputFiles[0].text,
-      err: ''
+      err: '',
     };
   } catch (err) {
     return {
       code: '',
-      err: err.message
+      err: err.message,
     };
   }
 };

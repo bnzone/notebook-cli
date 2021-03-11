@@ -1,5 +1,5 @@
 import './resizable.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ResizableBox, ResizableBoxProps } from 'react-resizable';
 
 interface ResizableProps {
@@ -39,11 +39,11 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       minConstraints: [innerWidth * 0.2, Infinity],
       maxConstraints: [innerWidth * 0.75, Infinity],
       height: Infinity,
-      width: width,
+      width,
       resizeHandles: ['e'],
       onResizeStop: (event, data) => {
         setWidth(data.size.width);
-      }
+      },
     };
   } else {
     resizableProps = {
@@ -51,7 +51,7 @@ const Resizable: React.FC<ResizableProps> = ({ direction, children }) => {
       maxConstraints: [Infinity, innerHeight * 0.9],
       height: 300,
       width: Infinity,
-      resizeHandles: ['s']
+      resizeHandles: ['s'],
     };
   }
 
