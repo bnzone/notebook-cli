@@ -3,7 +3,7 @@ import axios from 'axios';
 import localForage from 'localforage';
 
 const fileCache = localForage.createInstance({
-  name: 'filecache',
+  name: 'filecache'
 });
 
 export const fetchPlugin = (inputCode: string) => {
@@ -13,7 +13,7 @@ export const fetchPlugin = (inputCode: string) => {
       build.onLoad({ filter: /(^index\.js$)/ }, () => {
         return {
           loader: 'jsx',
-          contents: inputCode,
+          contents: inputCode
         };
       });
 
@@ -42,11 +42,7 @@ export const fetchPlugin = (inputCode: string) => {
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents,
-<<<<<<< HEAD
           resolveDir: new URL('./', request.responseURL).pathname
-=======
-          resolveDir: new URL('./', request.responseURL).pathname,
->>>>>>> d15bd1e14347a9e28ac567f605172f4d97197ac9
         };
         await fileCache.setItem(args.path, result);
 
@@ -59,12 +55,12 @@ export const fetchPlugin = (inputCode: string) => {
         const result: esbuild.OnLoadResult = {
           loader: 'jsx',
           contents: data,
-          resolveDir: new URL('./', request.responseURL).pathname,
+          resolveDir: new URL('./', request.responseURL).pathname
         };
         await fileCache.setItem(args.path, result);
 
         return result;
       });
-    },
+    }
   };
 };
