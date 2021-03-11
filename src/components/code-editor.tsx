@@ -48,7 +48,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
         plugins: [parser],
         useTabs: false,
         semi: true,
-        singleQuote: true
+        singleQuote: true,
       })
       .replace(/\n$/, '');
 
@@ -78,7 +78,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ onChange, initialValue }) => {
           lineNumbersMinChars: 3,
           fontSize: 16,
           scrollBeyondLastLine: false,
-          automaticLayout: true
+          automaticLayout: true,
         }}
       />
     </div>

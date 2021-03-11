@@ -16,7 +16,7 @@ const initialState: CellsState = {
   loading: false,
   error: null,
   order: [],
-  data: {}
+  data: {},
 };
 
 const reducer = produce((state: CellsState = initialState, action: Action) => {
@@ -49,7 +49,7 @@ const reducer = produce((state: CellsState = initialState, action: Action) => {
       const cell: Cell = {
         content: '',
         type: action.payload.type,
-        id: randomId()
+        id: randomId(),
       };
 
       state.data[cell.id] = cell;
