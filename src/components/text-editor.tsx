@@ -1,6 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
-import MDEditor from '@uiw/react-md-editor';
 import './text-editor.css';
+import { useState, useEffect, useRef } from 'react';
+import MDEditor from '@uiw/react-md-editor';
 import { Cell } from '../state';
 import { useActions } from '../hooks/use-actions';
 
@@ -25,7 +25,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ cell }) => {
 
       setEditing(false);
     };
-
     document.addEventListener('click', listener, { capture: true });
 
     return () => {
